@@ -33,37 +33,37 @@ lazy_static! {
             .init()
     };
     static ref UPSTREAM_CALLS: Counter<u64> = {
-        global::meter(&METER_NAME)
+        global::meter(**&METER_NAME)
             .u64_counter("rest.upstream_http_requests_total")
             .with_description("Amount of requests sent to discord")
             .init()
     };
     static ref TICKET_CALLS: Counter<u64> = {
-        global::meter(&METER_NAME)
+        global::meter(**&METER_NAME)
             .u64_counter("rest.ticket_http_requests_total")
             .with_description("Amount of requests sent to the ratelimiter")
             .init()
     };
     static ref HEADERS_SUBMIT_CALLS: Counter<u64> = {
-        global::meter(&METER_NAME)
+        global::meter(**&METER_NAME)
             .u64_counter("rest.header_submit_http_requests_total")
             .with_description("Amount of requests sent to the ratelimiter")
             .init()
     };
     static ref UPSTREAM_TIMES: Histogram<u64> = {
-        global::meter(&METER_NAME)
+        global::meter(**&METER_NAME)
             .u64_histogram("rest.upstream_http_request_duration_miliseconds")
             .with_description("Time took to request discord")
             .init()
     };
     static ref TICKET_TIMES: Histogram<u64> = {
-        global::meter(&METER_NAME)
+        global::meter(**&METER_NAME)
             .u64_histogram("rest.ticket_http_request_duration_miliseconds")
             .with_description("Time took to get a ticket from the ratelimiter")
             .init()
     };
     static ref HEADERS_SUBMIT_TIMES: Histogram<u64> = {
-        global::meter(&METER_NAME)
+        global::meter(**&METER_NAME)
             .u64_histogram("rest.header_submit_http_request_duration_miliseconds")
             .with_description("Time took to get a ticket from the ratelimiter")
             .init()
@@ -230,10 +230,10 @@ pub async fn handle_request(
         (bucket, uri_string, path_name(&path))
     };
 
-    REQUESTS.add(&cx, 1, &[KeyValue::new("bucket", name)]);
+    REQUESTS.add( 1, &[KeyValue::new("bucket", name)]);
 
     let ticket_start = SystemTime::now();
-    TICKET_CALLS.add(&cx, 1, &[KeyValue::new("bucket", name)]);
+    TICKET_CALLS.add(1, &[KeyValue::new("bucket", name)]);
     // waits for the request to be authorized
     match ratelimiter
         .ticket(bucket.clone())
@@ -243,7 +243,6 @@ pub async fn handle_request(
         Ok(_) => {
             #[allow(clippy::cast_possible_truncation)]
             TICKET_TIMES.record(
-                &cx,
                 ticket_start.elapsed()?.as_millis() as u64,
                 &[KeyValue::new("bucket", name)],
             );
@@ -291,12 +290,11 @@ pub async fn handle_request(
     *request.uri_mut() = uri;
     let span = debug_span!("upstream request to discord");
     let upstream_start = SystemTime::now();
-    UPSTREAM_CALLS.add(&cx, 1, &[KeyValue::new("bucket", name)]);
+    UPSTREAM_CALLS.add(1, &[KeyValue::new("bucket", name)]);
     let resp = match client.request(request).instrument(span).await {
         Ok(response) => {
             #[allow(clippy::cast_possible_truncation)]
             UPSTREAM_TIMES.record(
-                &cx,
                 upstream_start.elapsed()?.as_millis() as u64,
                 &[KeyValue::new("bucket", name)],
             );
@@ -322,14 +320,13 @@ pub async fn handle_request(
         .collect();
 
     let headers_start = SystemTime::now();
-    HEADERS_SUBMIT_CALLS.add(&cx, 1, &[KeyValue::new("bucket", name)]);
+    HEADERS_SUBMIT_CALLS.add( 1, &[KeyValue::new("bucket", name)]);
     ratelimiter
         .submit_headers(bucket.clone(), headers)
         .instrument(info_span!("submitting headers"))
         .await?;
     #[allow(clippy::cast_possible_truncation)]
     HEADERS_SUBMIT_TIMES.record(
-        &cx,
         headers_start.elapsed()?.as_millis() as u64,
         &[KeyValue::new("bucket", name)],
     );

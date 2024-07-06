@@ -47,11 +47,12 @@ impl Component for ReverseProxyServer {
             ));
             let https = hyper_rustls::HttpsConnectorBuilder::new()
                 .with_native_roots()
+                .expect("Native roots not available")
                 .https_or_http()
                 .enable_http1()
                 .build();
 
-            let client: Client<_, hyper::Body> = Client::builder().build(https);
+            let client: Client<_, hyper::body::Body> = Client::builder().build(https);
             let token = settings.config.discord.token.clone();
             let config = settings.config.clone();
             let service_fn = make_service_fn(move |_: &AddrStream| {
