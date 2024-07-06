@@ -10,10 +10,10 @@ opentelemetry = { workspace = true }
 tracing = { workspace = true }
 tokio = { workspace = true }
 
-config = { version = "0.13", default-features = false, features = ["json", "yaml-rust", "ini"] }
-redis = { version = "0.23.0", features = ["cluster", "connection-manager", "tokio-comp"] }
+config = { version = "0.14", default-features = false, features = ["json", "yaml-rust", "ini"] }
+redis = { version = "0.25.4", features = ["cluster", "connection-manager", "tokio-comp"] }
 
-async-nats = "0.29.0"
-twilight-model = "0.15.2"
-anyhow = "1.0.71"
-opentelemetry-otlp = "0.12.0"
+async-nats = "0.35.1"
+twilight-model = "0.15.4"
+anyhow = "1.0.86"
+opentelemetry-otlp = "0.16.0"

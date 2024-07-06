@@ -14,13 +14,13 @@ shared = { path = "../../libs/shared" }
 proto = { path = "../../libs/proto" }
 
 tokio = { version = "1", features = ["rt"] }
-tokio-stream = "0.1.14"
+tokio-stream = "0.1.15"
 
-serde = { version = "1.0.166", features = ["derive"] }
+serde = { version = "1.0.204", features = ["derive"] }
 serde_json = { version = "1.0" }
 
-async-nats = "0.29.0"
-twilight-model = "0.15.2"
-anyhow = "1.0.71"
+async-nats = "0.35.1"
+twilight-model = "0.15.4"
+anyhow = "1.0.86"
 
-tracing = "0.1.37"
+tracing = "0.1.40"

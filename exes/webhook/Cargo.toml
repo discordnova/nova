@@ -15,7 +15,7 @@ hyper = { workspace = true }
 anyhow = { workspace = true }
 
 hex = "0.4.3"
-ed25519-dalek = "1"
-twilight-model = "0.15.2"
+ed25519-dalek = "2"
+twilight-model = "0.15.4"
 
-async-nats = "0.29.0"
+async-nats = "0.35.1"
