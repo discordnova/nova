@@ -19,7 +19,7 @@ ctrlc = "3.4.4"
 
 tokio = { version = "1.38.0", features = ["rt"] }
 serde = "1.0.204"
-serde_json = "1.0.120"
+serde_derive = "1.0.204"
 anyhow = { version = "1.0.86", features = ["backtrace"] }
 
 tracing = "0.1.40"
