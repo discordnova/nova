@@ -15,11 +15,8 @@ fn main() -> Result<(), Box<dyn Error>> {
         .join(format!("{}.h", package_name))
         .display()
         .to_string();
-
-    let config = Config {
-        language: Language::C,
-        ..Default::default()
-    };
+    let mut config = Config::default();
+    config.language = Language::C;
 
     cbindgen::generate_with_config(crate_dir, config)?.write_to_file(output_file);
 

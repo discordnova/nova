@@ -16,4 +16,5 @@ tracing = { workspace = true }
 
 tracing-log = { version = "0.2.0" }
 tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
-opentelemetry-otlp = { version = "0.16.0", features = ["metrics"] }
+opentelemetry_sdk = { version = "*", features = ["async-std", "rt-tokio"] }
+opentelemetry-otlp = { version = "*", features = ["grpc-tonic", "metrics"] }
