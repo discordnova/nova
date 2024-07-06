@@ -18,7 +18,6 @@ use serde::de::DeserializeOwned;
 use shared::config::Settings;
 use std::str::FromStr;
 use std::{future::Future, pin::Pin};
-use tokio::runtime::Handle;
 use tokio::sync::oneshot;
 use tracing::{error, info, trace};
 use tracing_subscriber::filter::Directive;
@@ -52,7 +51,11 @@ where
             .as_ref()
             .and_then(|f| f.metrics.clone())
         {
-            let otlp_exporter = opentelemetry_otlp::new_exporter().tonic();
+            let otlp_exporter = opentelemetry_otlp::new_exporter()
+                .tonic()
+                .with_endpoint(&meter_config.endpoint)
+                .with_protocol(meter_config.protocol)
+                .with_timeout(meter_config.timeout);
             // Then pass it into pipeline builder
             let _ = opentelemetry_otlp::new_pipeline()
                 .tracing()

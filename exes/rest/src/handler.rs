@@ -27,7 +27,7 @@ use lazy_static::lazy_static;
 lazy_static! {
     static ref METER_NAME: &'static str = "";
     static ref REQUESTS: Counter<u64> = {
-        global::meter(&METER_NAME)
+        global::meter(**&METER_NAME)
             .u64_counter("rest.http_requests_total")
             .with_description("Amount of requests processed by the rest reverse proxy")
             .init()
