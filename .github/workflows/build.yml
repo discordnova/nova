@@ -98,7 +98,8 @@ jobs:
           key: ${{ runner.os }}-cargo-${{ matrix.arch }}
       - name: Build all
         run: |
-          cargo install cross --git https://github.com/cross-rs/cross
+          cargo install cross --force
+          cargo install --force --locked bindgen-cli
           export CROSS_CONTAINER_ENGINE_NO_BUILDKIT=1
           cross build --release --target ${{ matrix.arch }}
           mkdir -p ./build
