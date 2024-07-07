@@ -589,7 +589,7 @@ dependencies = [
  "async-nats",
  "proto",
  "serde",
- "serde_derive",
+ "serde_json",
  "shared",
  "tokio",
  "tokio-stream",
