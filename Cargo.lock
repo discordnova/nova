@@ -31,6 +31,7 @@ name = "all_in_one"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "aws-lc-rs",
  "cache",
  "cbindgen",
  "config",
@@ -390,14 +391,30 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0c4b4d0bd25bd0b74681c0ad21497610ce1b7c91b1022cd21c80c6fbdd9476b0"
 
 [[package]]
+name = "aws-lc-fips-sys"
+version = "0.12.10"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7cfb6142ca55e3c1be078c970f46b74f93b14e732b664059ef0d0ed718c10829"
+dependencies = [
+ "bindgen",
+ "cmake",
+ "dunce",
+ "fs_extra",
+ "libc",
+ "paste",
+]
+
+[[package]]
 name = "aws-lc-rs"
 version = "1.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a8a47f2fb521b70c11ce7369a6c5fa4bd6af7e5d62ec06303875bafe7c6ba245"
 dependencies = [
+ "aws-lc-fips-sys",
  "aws-lc-sys",
  "mirai-annotations",
  "paste",
+ "untrusted 0.7.1",
  "zeroize",
 ]
 
@@ -587,6 +604,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-nats",
+ "aws-lc-rs",
  "proto",
  "serde",
  "serde_json",
@@ -1324,6 +1342,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-nats",
+ "aws-lc-rs",
  "bytes",
  "leash",
  "opentelemetry",
@@ -1791,6 +1810,7 @@ name = "leash"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "aws-lc-rs",
  "opentelemetry",
  "opentelemetry-otlp",
  "opentelemetry_sdk",
@@ -2432,6 +2452,7 @@ dependencies = [
 name = "proto"
 version = "0.1.0"
 dependencies = [
+ "aws-lc-rs",
  "glob",
  "prost",
  "tonic",
@@ -2482,6 +2503,7 @@ name = "ratelimit"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "aws-lc-rs",
  "criterion",
  "env_logger",
  "hyper 1.4.0",
@@ -2601,6 +2623,7 @@ name = "rest"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "aws-lc-rs",
  "dns-lookup",
  "futures-util",
  "hashring",
@@ -2975,6 +2998,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-nats",
+ "aws-lc-rs",
  "config",
  "opentelemetry",
  "opentelemetry-otlp",

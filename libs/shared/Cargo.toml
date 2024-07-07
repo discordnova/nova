@@ -9,6 +9,7 @@ serde_json = { workspace = true }
 opentelemetry = { workspace = true }
 tracing = { workspace = true }
 tokio = { workspace = true }
+aws-lc-rs = { workspace = true }
 
 config = { version = "0.14", default-features = false, features = ["json", "yaml-rust", "ini"] }
 redis = { version = "0.25.4", features = ["cluster", "connection-manager", "tokio-comp"] }

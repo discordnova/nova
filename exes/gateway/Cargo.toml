@@ -16,6 +16,7 @@ tokio = { workspace = true }
 anyhow = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
+aws-lc-rs = { workspace = true }
 
 tokio-stream = "0.1.15"
 twilight-gateway = { default-features = false, features = ["rustls-webpki-roots"], version = "0.15.4" }

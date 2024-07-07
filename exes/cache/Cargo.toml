@@ -24,3 +24,5 @@ twilight-model = "0.15.4"
 anyhow = "1.0.86"
 
 tracing = "0.1.40"
+
+aws-lc-rs = { workspace = true }

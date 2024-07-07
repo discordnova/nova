@@ -13,6 +13,7 @@ serde = { workspace = true }
 opentelemetry = { workspace = true }
 tracing-opentelemetry = { workspace = true }
 tracing = { workspace = true }
+aws-lc-rs = { workspace = true }
 
 tracing-log = { version = "0.2.0" }
 tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }

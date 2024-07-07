@@ -6,6 +6,7 @@ edition = "2021"
 [dependencies]
 tonic = "0.11.0"
 prost = "0.12.6"
+aws-lc-rs = { workspace = true }
 
 [build-dependencies]
 tonic-build = "0.11.0"
