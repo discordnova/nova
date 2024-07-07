@@ -16,11 +16,11 @@ jobs:
       - name: Setup | Checkout
         uses: actions/checkout@v2
       - name: Install Protoc
-        uses: arduino/setup-protoc@v1
+        uses: arduino/setup-protoc@v3
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Setup | Rust
-        uses: ATiltedTree/setup-rust@v1
+        uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           rust-version: stable
           components: clippy
@@ -51,10 +51,10 @@ jobs:
             ~/.cargo/git/db/
             target/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-      - uses: arduino/setup-protoc@v1
+      - uses: arduino/setup-protoc@v3
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: ATiltedTree/setup-rust@v1
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           rust-version: stable
       - name: Build all
@@ -75,16 +75,12 @@ jobs:
         arch: 
           - aarch64-unknown-linux-gnu
           - aarch64-unknown-linux-musl
-          - armv7-unknown-linux-gnueabi
-          - armv7-unknown-linux-gnueabihf
-          - armv7-unknown-linux-musleabi
-          - armv7-unknown-linux-musleabihf
           - x86_64-unknown-linux-gnu
           - x86_64-unknown-linux-musl
           - x86_64-pc-windows-gnu
     steps:
       - uses: actions/checkout@v2
-      - uses: ATiltedTree/setup-rust@v1
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           rust-version: stable
       - uses: actions/cache@v3
@@ -98,7 +94,7 @@ jobs:
           key: ${{ runner.os }}-cargo-${{ matrix.arch }}
       - name: Build all
         run: |
-          cargo install cross --force
+          cargo install cross --git https://github.com/cross-rs/cross
           export CROSS_CONTAINER_ENGINE_NO_BUILDKIT=1
           cross build --release --target ${{ matrix.arch }}
           mkdir -p ./build

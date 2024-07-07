@@ -11,3 +11,4 @@ FROM $CROSS_BASE_IMAGE
 COPY --from=db /dl/protoc3 /dl/
 RUN mv /dl/bin/* /usr/local/bin/ && \
     mv /dl/include/* /usr/local/include/
+

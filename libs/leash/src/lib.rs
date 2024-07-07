@@ -11,20 +11,15 @@
 
 use anyhow::Result;
 use opentelemetry::global::shutdown_tracer_provider;
-use opentelemetry::sdk::export::metrics::aggregation::stateless_temporality_selector;
-use opentelemetry::sdk::metrics::selectors;
-use opentelemetry::sdk::propagation::TraceContextPropagator;
-use opentelemetry::sdk::trace::{self};
-use opentelemetry::sdk::Resource;
 use opentelemetry::{global, KeyValue};
 use opentelemetry_otlp::WithExportConfig;
+use opentelemetry_sdk::{trace, Resource};
 use serde::de::DeserializeOwned;
 use shared::config::Settings;
 use std::str::FromStr;
-use std::time::Duration;
 use std::{future::Future, pin::Pin};
 use tokio::sync::oneshot;
-use tracing::{info, trace, error};
+use tracing::{error, info, trace};
 use tracing_subscriber::filter::Directive;
 use tracing_subscriber::{fmt, prelude::*, EnvFilter};
 
@@ -56,25 +51,17 @@ where
             .as_ref()
             .and_then(|f| f.metrics.clone())
         {
-            let meter = opentelemetry_otlp::new_pipeline()
-                .metrics(
-                    selectors::simple::histogram([0.1, 1.0, 2.0, 5.0, 10.0, 20.0, 50.0]),
-                    stateless_temporality_selector(),
-                    opentelemetry::runtime::Tokio,
-                )
-                .with_exporter(
-                    opentelemetry_otlp::new_exporter()
-                        .tonic()
-                        .with_export_config(meter_config.into()),
-                )
-                .with_period(Duration::from_secs(3))
-                .with_timeout(Duration::from_secs(10))
-                .build()?;
-            // Using the opentelemetry_otlp meter
-            global::set_meter_provider(meter);
+            let otlp_exporter = opentelemetry_otlp::new_exporter()
+                .tonic()
+                .with_endpoint(&meter_config.endpoint)
+                .with_protocol(meter_config.protocol)
+                .with_timeout(meter_config.timeout);
+            // Then pass it into pipeline builder
+            let _ = opentelemetry_otlp::new_pipeline()
+                .tracing()
+                .with_exporter(otlp_exporter)
+                .install_simple()?;
         }
-        // Use the text propagator
-        global::set_text_map_propagator(TraceContextPropagator::new());
         // Print debug errors
         global::set_error_handler(|error| {
             error!("OpenTelemetry error: {}", error);
@@ -95,7 +82,7 @@ where
                         .tonic()
                         .with_export_config(tracer_config.into()),
                 )
-                .install_batch(opentelemetry::runtime::Tokio)?;
+                .install_batch(opentelemetry_sdk::runtime::Tokio)?;
             let otel_layer = tracing_opentelemetry::layer().with_tracer(tracer);
 
             tracing_subscriber::registry()

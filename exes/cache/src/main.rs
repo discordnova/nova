@@ -65,7 +65,7 @@ async fn listen(sub: &mut Subscriber, cache: &mut Cache, features: Vec<String>) 
             | DispatchEvent::ChannelUpdate(_)
                 if features.contains(&"channels_cache".to_string()) =>
             {
-                cache.channels.handle(event);
+                cache.channels.handle(event).await;
             }
 
             // Guild Cache
@@ -81,7 +81,7 @@ async fn listen(sub: &mut Subscriber, cache: &mut Cache, features: Vec<String>) 
             | DispatchEvent::CommandPermissionsUpdate(_)
                 if features.contains(&"guilds_cache".to_string()) =>
             {
-                cache.guilds.handle(event);
+                cache.guilds.handle(event).await;
             }
 
             // Guild Scheduled event
@@ -92,7 +92,7 @@ async fn listen(sub: &mut Subscriber, cache: &mut Cache, features: Vec<String>) 
             | DispatchEvent::GuildScheduledEventUserRemove(_)
                 if features.contains(&"guild_schedules_cache".to_string()) =>
             {
-                cache.guild_schedules.handle(event);
+                cache.guild_schedules.handle(event).await;
             }
 
             // Stage events
@@ -101,7 +101,7 @@ async fn listen(sub: &mut Subscriber, cache: &mut Cache, features: Vec<String>) 
             | DispatchEvent::StageInstanceUpdate(_)
                 if features.contains(&"stage_instances_cache".to_string()) =>
             {
-                cache.stage_instances.handle(event);
+                cache.stage_instances.handle(event).await;
             }
 
             // Integration events
@@ -111,7 +111,7 @@ async fn listen(sub: &mut Subscriber, cache: &mut Cache, features: Vec<String>) 
             | DispatchEvent::InteractionCreate(_)
                 if features.contains(&"integrations_cache".to_string()) =>
             {
-                cache.integrations.handle(event);
+                cache.integrations.handle(event).await;
             }
 
             // Member events
@@ -122,14 +122,14 @@ async fn listen(sub: &mut Subscriber, cache: &mut Cache, features: Vec<String>) 
             | DispatchEvent::UserUpdate(_)
                 if features.contains(&"members_cache".to_string()) =>
             {
-                cache.members.handle(event);
+                cache.members.handle(event).await;
             }
 
             // Ban cache
             DispatchEvent::BanAdd(_) | DispatchEvent::BanRemove(_)
                 if features.contains(&"bans_cache".to_string()) =>
             {
-                cache.bans.handle(event);
+                cache.bans.handle(event).await;
             }
 
             // Reaction cache
@@ -139,7 +139,7 @@ async fn listen(sub: &mut Subscriber, cache: &mut Cache, features: Vec<String>) 
             | DispatchEvent::ReactionRemoveEmoji(_)
                 if features.contains(&"reactions_cache".to_string()) =>
             {
-                cache.reactions.handle(event);
+                cache.reactions.handle(event).await;
             }
 
             // Message cache
@@ -149,7 +149,7 @@ async fn listen(sub: &mut Subscriber, cache: &mut Cache, features: Vec<String>) 
             | DispatchEvent::MessageUpdate(_)
                 if features.contains(&"messages_cache".to_string()) =>
             {
-                cache.messages.handle(event);
+                cache.messages.handle(event).await;
             }
 
             // Thread cache
@@ -161,14 +161,14 @@ async fn listen(sub: &mut Subscriber, cache: &mut Cache, features: Vec<String>) 
             | DispatchEvent::ThreadUpdate(_)
                 if features.contains(&"threads_cache".to_string()) =>
             {
-                cache.threads.handle(event);
+                cache.threads.handle(event).await;
             }
 
             // Invite cache
             DispatchEvent::InviteCreate(_) | DispatchEvent::InviteDelete(_)
                 if features.contains(&"invites_cache".to_string()) =>
             {
-                cache.invites.handle(event);
+                cache.invites.handle(event).await;
             }
 
             // Roles cache
@@ -177,7 +177,7 @@ async fn listen(sub: &mut Subscriber, cache: &mut Cache, features: Vec<String>) 
             | DispatchEvent::RoleUpdate(_)
                 if features.contains(&"roles_cache".to_string()) =>
             {
-                cache.roles.handle(event);
+                cache.roles.handle(event).await;
             }
 
             // Automod rules
@@ -186,7 +186,7 @@ async fn listen(sub: &mut Subscriber, cache: &mut Cache, features: Vec<String>) 
             | DispatchEvent::AutoModerationRuleUpdate(_)
                 if features.contains(&"automoderation_cache".to_string()) =>
             {
-                cache.automoderation.handle(event);
+                cache.automoderation.handle(event).await;
             }
 
             // Voice State

@@ -16,9 +16,10 @@ tokio = { workspace = true }
 anyhow = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
+aws-lc-rs = { workspace = true }
 
-tokio-stream = "0.1.14"
-twilight-gateway = { default-features = false, features = ["rustls-webpki-roots"], version = "0.15.2" }
-twilight-model = "0.15.2"
-bytes = "1.4.0"
-async-nats = "0.29.0"
+tokio-stream = "0.1.15"
+twilight-gateway = { default-features = false, features = ["rustls-webpki-roots"], version = "0.15.4" }
+twilight-model = "0.15.4"
+bytes = "1.6.0"
+async-nats = "0.35.1"
