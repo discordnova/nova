@@ -1,6 +1,6 @@
 [build]
 pre-build = [
     "dpkg --add-architecture $CROSS_DEB_ARCH",
-    "apt-get update && apt-get --assume-yes install libc6-dev"
+    "apt-get update && apt-get --assume-yes install libc6-dev nasm"
 ]
 dockerfile = "Dockerfile.cross"
